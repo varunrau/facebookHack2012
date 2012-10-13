@@ -71,7 +71,7 @@ function retrieveHistoryNodesForURL(targetURL, onComplete) {
   var oneWeekAgo = (new Date).getTime() - microsecondsPerWeek;
 
   var timeStamp = 0;
-  var timeWindow = 1000000000000; // Time window in milliseconds
+  var timeWindow = 1000 * 100; // Time window in milliseconds
   var URLtitles = [];
   var URLfrequencies = [];
   var numURLtitles = 0;
@@ -112,15 +112,14 @@ function retrieveHistoryNodesForURL(targetURL, onComplete) {
         },
         function() {
           for (targetVisitItem in targetVisitItems) {
-            var targetTimeStamp = targetVisitItem.visitTime;
+            var targetTimeStamp = targetVisitItems[targetVisitItem].visitTime;
             for (url in allVisitItems) {
-              console.log("Url: " + url + ", visitItemsReady: " + visitItemsReady);
               var visitItems = allVisitItems[url];
               for (item in visitItems) {
-                var timeStamp = item.visitTime;
+                var timeStamp = visitItems[item].visitTime;
                 if(!URLfrequencies[url])
                   URLfrequencies[url] = 0;
-                //if(timeStamp <= targetTimeStamp + timeWindow && timeStamp >= targetTimeStamp)
+                if(timeStamp <= targetTimeStamp + timeWindow && timeStamp >= targetTimeStamp)
                   URLfrequencies[url]++; 
               }
             }
