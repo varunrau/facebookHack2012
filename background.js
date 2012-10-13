@@ -18,14 +18,17 @@ function sendURLtoServer(tab) {
 	});
 };
 
-chrome.tabs.onCreated.addListener(function(tab) {
-	pastUrls[tab.index] = tab.url;
-	if (tab.url !== undefined && tab.status == 'complete') {
-		alert("fafd");
-		sendURLtoServer(tab);
+/* 
+ * Accepts an array of urls and regex's through them to find stylesheets and
+ * images to preload.
+ */ 
+function preloadResources(urls) {
+	var request = new XMLHttpRequest();
+	for (i=0; i<urls.length; i++) {
+		request.open("GET", urls[i], true);
+		request.send(null);	
 	}
-	alert("hi");
-});
+}
 
 chrome.tabs.onRemoved.addListener(function(tab) {
 	var curIndex = tab.index;
