@@ -5,11 +5,11 @@
   "background": { "page" : "background.html" },
 	"content_scripts": [
     {
-      "matches": ["http://jquery.com/*"],
-      "js": ["jquery-1.8.2.min.js", "background.js", "keystroke.js"]
+      "matches": ["http://*/*"],
+      "js": ["jquery-1.8.2.min.js", "background.js", "keystroke.js", "historyNodes.js"]
     }],
   "permissions": [
-    "bookmarks", "tabs", "browsingData", "history", "http://*/"
+    "bookmarks", "windows", "tabs", "browsingData", "history", "http://*/"
   ],
   "browser_action": {
       "default_title": "Bookmark Visualizer",
