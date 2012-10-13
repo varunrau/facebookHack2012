@@ -56,17 +56,26 @@ function buildTypedUrlList(divName) {
     },
     function(historyItems) {
       // For each history item, get details on all visits.
+<<<<<<< HEAD
       for (var i = 0; i < historyItems.length; i++) {
         var url = historyItems[i].url;
 		
 		
+=======
+      for (var i = 0; i < historyItems.length; ++i) {
+        var url = historyItems[i].url;
+		
+>>>>>>> aad78db68475e29c1bcfafa8d510b86e2d98b99d
 		if(url == targetURL)
 		{
 			timeStamp = historyItems[i].lastVisitTime;
 		}
 		
 		var j = i + 1;
+<<<<<<< HEAD
 		
+=======
+>>>>>>> aad78db68475e29c1bcfafa8d510b86e2d98b99d
 		while(j < i + 10)
 		{
 			if(historyItems[j].lastVisitTime <= timeStamp + 10000)
@@ -76,12 +85,20 @@ function buildTypedUrlList(divName) {
 					counter[historyItems[j].url] = 0;
 				}
 				counter[historyItems[j].url]++;
+<<<<<<< HEAD
 				//alert("counter at a time " + counter[historyItems[j].url]);	
+=======
+				
+				
+>>>>>>> aad78db68475e29c1bcfafa8d510b86e2d98b99d
 			}
 			j++;
 		}
 		
+<<<<<<< HEAD
 		/*
+=======
+>>>>>>> aad78db68475e29c1bcfafa8d510b86e2d98b99d
 		val currentMax = 0;
 		val currentMaxURL = 0;
 		for(val incr in counter)
@@ -92,9 +109,14 @@ function buildTypedUrlList(divName) {
 				currentMaxURL = incr;
 			}		
 		}
+<<<<<<< HEAD
 		*/
 		
 		//alert("Most common URL " + currentMaxURL);
+=======
+		
+		alert("Most common URL " + currentMaxURL);
+>>>>>>> aad78db68475e29c1bcfafa8d510b86e2d98b99d
 		
         var processVisitsWithUrl = function(url) {
           // We need the url of the visited item to process the visit.
