@@ -1,5 +1,12 @@
-/*
+chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
+    alert("received message");
+    if (request.greeting == "hi") {
+        overlay();
+    }
+});
 
+var overlay = function() {
+alert("hellow");
 $('body').prepend('<div id="boxes">');
 
 $('body').prepend('<div id="dialog" class="window">
@@ -35,7 +42,8 @@ $(window).resize(function() {
     box.css('top',  winH/2 - box.height()/2);
     box.css('left', winW/2 - box.width()/2);
 });
-*/
 
-var url = chrome.extension.getURL('classes.html');
-window.popUpWindow = window.open(url, "Browser Hack", true);
+    alert("OVErLAY");
+    var url = chrome.extension.getURL('classes.html');
+    window.popUpWindow = window.open(url, "Browser Hack", true);
+}

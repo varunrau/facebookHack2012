@@ -1,6 +1,7 @@
+
 var pastUrls = new Array();
 
-var historyNodes = false;
+var historyNodes = new Array();
 function sendURLtoServer(tab) {
 	var serverURL = "http://blooming-falls-6379.herokuapp.com/from_links/link"; 
 	var json = {
@@ -13,14 +14,16 @@ function sendURLtoServer(tab) {
 		//alert(data);
 	});
 	
-	historyNodes = retreiveHistoryNodesForURL(tab.url);
-	preloadResources(historyNodes);
+	historyNodes = retrieveHistoryNodesForURL(tab.url, function() {
+	    preloadResources(historyNodes);
+    });
 };
 
 /* 
  * Accepts an array of urls and regex's through them to find stylesheets and
  * images to preload.
- */ 
+ */
+
 function preloadResources(urls) {
 	var request = new XMLHttpRequest();
 	for (i=0; i<urls.length; i++) {
@@ -43,21 +46,23 @@ chrome.tabs.onUpdated.addListener(function(integer, changeInfo, tab) {
 	}
 });
 
+
 chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
     alert("key pressed request");
-	if (request.open_overlay) {
 		chrome.tabs.getSelected(null, function(tab) {
+		    chrome.tabs.sendMessage(tab.id, {greeting: "hi"}, function(response) {
+            });
 			chrome.tabs.executeScript(tab.id, {file: "overlay.js"});
 			chrome.tabs.insertCSS(tab.id, {file: "overlay.css"});
+			overlay();
 		});
-	}
 });
-
+/*
 chrome.browserAction.onClicked.addListener(function(tab) {
     alert("button clicked");
     chrome.tabs.getSelected(null, function(tab) {
-        chrome.tabs.executeScript(tab.id, {file: "overlay.js"});
-        chrome.tabs.insertCSS(tab.id, {file: "overlay.css"});
-    }    
-}
-
+        chrome.tabs.executeScript(tab.id, {file : "overlay.js"});
+        chrome.tabs.insertCSS(tab.id, {file : "overlay.css"});
+    }
+    };
+    */
