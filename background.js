@@ -1,5 +1,3 @@
-alert("loaded");
-
 var pastUrls = new Array();
 
 function sendURLtoServer(tab) {

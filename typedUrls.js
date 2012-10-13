@@ -15,6 +15,7 @@ function onAnchorClick(event) {
 // Given an array of URLs, build a DOM list of those URLs in the
 // browser action popup.
 function buildPopupDom(divName, data) {
+  alert(data);
   var popupDiv = document.getElementById(divName);
 
   var ul = document.createElement('ul');
@@ -31,10 +32,9 @@ function buildPopupDom(divName, data) {
 
     ul.appendChild(li);
   }
-  popupDiv.innerHTML = timeStamp;
 }
 
-var targetURL = "http://www.nytimes.com/";
+var targetURL = "http://www.google.com";
 var timeStamp = 0;
 var counter = {};
 
@@ -56,72 +56,52 @@ function buildTypedUrlList(divName) {
     },
     function(historyItems) {
       // For each history item, get details on all visits.
+      /*alert("# History Items: " + historyItems.length);
       for (var i = 0; i < historyItems.length; ++i) {
-        var url = historyItems[i].url;
-		
-		if(url == targetURL)
-		{
-			timeStamp = historyItems[i].lastVisitTime;
-		}
-		
-		var j = i + 1;
-		while(j < i + 10)
-		{
-			if(historyItems[j].lastVisitTime <= timeStamp + 10000)
-			{
-				if(!counter[historyItems[j].url])
-				{
-					counter[historyItems[j].url] = 0;
-				}
-				counter[historyItems[j].url]++;
-				
-				
-			}
-			j++;
-		}
-		
-		relURLArray = [];
-    for (var url in counter) {
-      relURLArray.push(url);
-    }
-
-    // Sort the URLs by the number of times the user typed them.
-    relURLArray.sort(function(a, b) {
-      return counter[b] - counter[a];
-    });
-	/*
-	alert("relURLArray " + relURLArray[0] + "value " + counter[relURLArray[0]]);
-	alert("relURLArray " + relURLArray[1] + "value " + counter[relURLArray[1]]);
-	alert("relURLArray " + relURLArray[2] + "value " + counter[relURLArray[2]]);
-	alert("relURLArray " + relURLArray[3] + "value " + counter[relURLArray[3]]);
-	*/
-		/*
-		val currentMax = 0;
-		val currentMaxURL = 0;
-		for(val incr in counter)
-		{
-			if(incr > currentMax)
-			{
-				currentMax = incr;
-				currentMaxURL = incr;
-			}		
-		}
-		*/
-		//alert("Most common URL " + currentMaxURL);
-		
-        var processVisitsWithUrl = function(url) {
-          // We need the url of the visited item to process the visit.
-          // Use a closure to bind the  url into the callback's args.
-          return function(visitItems) {
-            processVisits(url, visitItems);
-          };
-        };
-        chrome.history.getVisits({url: url}, processVisitsWithUrl(url));
-        numRequestsOutstanding++;
+        var url = historyItems[i].url;	
+        if(url == targetURL) {
+          timeStamp = historyItems[i].lastVisitTime;
+          for (var j = 0; j < historyItems.length; j++) {
+            //if(historyItems[j].lastVisitTime <= timeStamp + 10000) {
+            if (true) {
+              if(!counter[historyItems[j].url]) {
+                counter[historyItems[j].url] = 0;
+              }
+              counter[historyItems[j].url]++;
+            }
+          }
+        }
       }
+      var relURLArray = [];
+      for (var url in counter) {
+        relURLArray.push(url);
+      }
+
+      // Sort the URLs by the number of times the user typed them.
+      relURLArray.sort(function(a, b) {
+        return counter[b] - counter[a];
+      });
+      */
+      var URLS = [];
+      alert(historyItems[historyItems.length-1]);
+      for (int i = 0; i < historyItems.length; i++) {
+        URLS.push(historyItems[i].url);
+      }
+      alert(URLS);
+      buildPopupDom(divName, URLS);
+      /*var processVisitsWithUrl = function(url) {
+        // We need the url of the visited item to process the visit.
+        // Use a closure to bind the  url into the callback's args.
+        return function(visitItems) {
+          processVisits(url, visitItems);
+        };
+      };
+      chrome.history.getVisits({url: url}, processVisitsWithUrl(url));
+      numRequestsOutstanding++;
+    
       if (!numRequestsOutstanding) {
         onAllVisitsProcessed();
-      }
+      }*/
     });
 
 
