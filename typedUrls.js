@@ -31,7 +31,12 @@ function buildPopupDom(divName, data) {
 
     ul.appendChild(li);
   }
+  popupDiv.innerHTML = counter;
 }
+
+var targetURL = "http://www.nytimes.com/";
+var timeStamp = 0;
+var counter = {};
 
 // Search history to find up to ten links that a user has typed in,
 // and show those links in a popup.
@@ -53,6 +58,41 @@ function buildTypedUrlList(divName) {
       // For each history item, get details on all visits.
       for (var i = 0; i < historyItems.length; ++i) {
         var url = historyItems[i].url;
+		
+		if(url == targetURL)
+		{
+			timeStamp = historyItems[i].lastVisitTime;
+		}
+		
+		var j = i + 1;
+		while(j < i + 10)
+		{
+			if(historyItems[j].lastVisitTime <= timeStamp + 10000)
+			{
+				if(!counter[historyItems[j].url])
+				{
+					counter[historyItems[j].url] = 0;
+				}
+				counter[historyItems[j].url]++;
+				
+				
+			}
+			j++;
+		}
+		
+		val currentMax = 0;
+		val currentMaxURL = 0;
+		for(val incr in counter)
+		{
+			if(incr > currentMax)
+			{
+				currentMax = incr;
+				currentMaxURL = incr;
+			}		
+		}
+		
+		alert("Most common URL " + currentMaxURL);
+		
         var processVisitsWithUrl = function(url) {
           // We need the url of the visited item to process the visit.
           // Use a closure to bind the  url into the callback's args.
@@ -77,11 +117,8 @@ function buildTypedUrlList(divName) {
   // times a user visited a URL by typing the address.
   var processVisits = function(url, visitItems) {
     for (var i = 0, ie = visitItems.length; i < ie; ++i) {
-      // Ignore items unless the user typed the URL.
-      if (visitItems[i].transition != 'typed') {
-        continue;
-      }
-
+      
+	
       if (!urlToCount[url]) {
         urlToCount[url] = 0;
       }
