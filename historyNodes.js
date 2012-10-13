@@ -31,7 +31,7 @@ function $waitUntil(check,onComplete,delay,timeout) {
 
 var historyNodes = [];
 
-/*$(document).ready(function() {
+$(document).ready(function() {
   /*retrieveHistoryNodesForURL("http://www.google.com/", function() {
     var div = document.getElementById("history_nodes");
     var ul = document.createElement('ul');
@@ -45,15 +45,20 @@ var historyNodes = [];
       li.appendChild(a);
       ul.appendChild(li);
     }
-  });
+  });*/
   retrieveHistoryNodesForURL("http://www.google.com/", function() {
     for(index in historyNodes) {
       var node = historyNodes[index];
       console.log("History node: {title: " + node.title + ", url: " + node.url + ", frequency: " + node.frequency);
     }
   });
-});*/
+});
 
+
+var visitItemsReady = false;
+var allVisitItems = [];
+var globalHistoryItems = [];
+var historyItemsCurrentIndex = 0;
 
 /*
  * Given a URL, constructs the history nodes for that URL and returns
@@ -71,60 +76,52 @@ function retrieveHistoryNodesForURL(targetURL, onComplete) {
   var URLfrequencies = [];
   var numURLtitles = 0;
   var numAllVisitItems = 0;
-  var visitItemsReady = false;
   var historyNodesReady = false;
+  var targetVisitItemsReady = false;
 
   chrome.history.search({
       'text': '',              // Return every history item....
       'startTime': oneWeekAgo  // that was accessed less than one week ago.
     },
     function(historyItems) {
+      globalHistoryItems = historyItems;
       var targetVisitItems = [];
-      var allVisitItems = [];
-      for (var i = 0; i < historyItems.length; ++i) {
-        var url = historyItems[i].url
-        if (url != targetURL) {
-          URLtitles[url] = historyItems[i].title;
-          numURLtitles++;
-          chrome.history.getVisits({
-              'url': url
-            },
-            function(visitItems) {
-              allVisitItems[url] = visitItems;
-              numAllVisitItems++;
-              if (numURLtitles == numAllVisitItems) {
-                visitItemsReady = true;
-              }
-            }
-          );
-        }
-        else {
-          chrome.history.getVisits({
-              'url': targetURL
-            },
-            function(visitItems) {
-              targetVisitItems = visitItems;
-            }
-          );
-        }
+      
+      for (i in globalHistoryItems) { 
+        url = globalHistoryItems[i].url;
+        URLtitles[url] = globalHistoryItems[i].title;
       }
+
+      chrome.history.getVisits({
+          'url': targetURL
+        },
+        function(visitItems) {
+          targetVisitItems = visitItems;
+          targetVisitItemsReady = true;
+        }
+      );
       $waitUntil(
         function() {
-            return visitItemsReady == true;
+          return targetVisitItemsReady == true;
+        },
+        recursiveVisitItemRetrievalWrapper
+      );
+      $waitUntil(
+        function() {
+          return visitItemsReady == true;
         },
         function() {
           for (targetVisitItem in targetVisitItems) {
-          var targetTimeStamp = targetVisitItem.visitTime;
-          for (url in allVisitItems) {
-            var visitItems = allVisitItems[url];
-            for (item in visitItems) {
-              var timeStamp = item.visitTime;
-              //if(timeStamp <= targetTimeStamp + timeWindow && timeStamp >= targetTimeStamp) {
-                if(!URLfrequencies[url]) {
+            var targetTimeStamp = targetVisitItem.visitTime;
+            for (url in allVisitItems) {
+              console.log("Url: " + url + ", visitItemsReady: " + visitItemsReady);
+              var visitItems = allVisitItems[url];
+              for (item in visitItems) {
+                var timeStamp = item.visitTime;
+                if(!URLfrequencies[url])
                   URLfrequencies[url] = 0;
-                }
-                URLfrequencies[url]++;
-              //}
+                //if(timeStamp <= targetTimeStamp + timeWindow && timeStamp >= targetTimeStamp)
+                  URLfrequencies[url]++; 
               }
             }
           }
@@ -150,5 +147,33 @@ function retrieveHistoryNodesForURL(targetURL, onComplete) {
       return historyNodesReady == true;
     },
     onComplete
+  );
+}
+
+function recursiveVisitItemRetrievalWrapper() {
+  recursiveVisitItemRetrieval(historyItemsCurrentIndex);
+}
+
+function recursiveVisitItemRetrieval(i) {
+  if (i == globalHistoryItems.length) {
+    visitItemsReady = true;
+    return;
+  }
+  var iterationComplete = false;
+  var url = globalHistoryItems[i].url
+  historyItemsCurrentIndex++;
+  chrome.history.getVisits({
+      'url': url
+    },
+    function(visitItems) {
+      allVisitItems[url] = visitItems;
+      iterationComplete = true;
+    }
+  );
+  $waitUntil(
+    function() {
+      return iterationComplete == true;
+    },
+    recursiveVisitItemRetrievalWrapper
   );
 }
