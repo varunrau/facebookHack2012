@@ -8,8 +8,8 @@
 function $waitUntil(check,onComplete,delay,timeout) {
   // if the check returns true, execute onComplete immediately
   if (check()) {
-  console.log(check);
-  console.log(onComplete);
+  //console.log(check);
+  //console.log(onComplete);
     onComplete();
     return;
   }
@@ -28,10 +28,7 @@ function $waitUntil(check,onComplete,delay,timeout) {
   },timeout);
 }
 
-
-var historyNodes = [];
-
-$(document).ready(function() {
+/*$(document).ready(function() {
   /*retrieveHistoryNodesForURL("http://www.google.com/", function() {
     var div = document.getElementById("history_nodes");
     var ul = document.createElement('ul');
@@ -46,19 +43,14 @@ $(document).ready(function() {
       ul.appendChild(li);
     }
   });*/
-  retrieveHistoryNodesForURL("http://www.google.com/", function() {
+  /*retrieveHistoryNodesForURL("http://www.google.com/", function() {
     for(index in historyNodes) {
       var node = historyNodes[index];
       console.log("History node: {title: " + node.title + ", url: " + node.url + ", frequency: " + node.frequency);
     }
   });
-});
+});*/
 
-
-var visitItemsReady = false;
-var allVisitItems = [];
-var globalHistoryItems = [];
-var historyItemsCurrentIndex = 0;
 
 /*
  * Given a URL, constructs the history nodes for that URL and returns
@@ -125,7 +117,7 @@ function retrieveHistoryNodesForURL(targetURL, onComplete) {
             }
           }
           for (url in URLfrequencies) {
-            console.log("Url: " + url + " has frequency " + URLfrequencies[url]);
+            //console.log("Url: " + url + " has frequency " + URLfrequencies[url]);
           }
           for (url in URLtitles) {
             //console.log("History node: {title: " + URLtitles[url] + ", url: " + url + ", frequency: " + URLfrequencies[url] + "}");

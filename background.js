@@ -1,7 +1,11 @@
 
 var pastUrls = new Array();
 
-var historyNodes = new Array();
+var historyNodes = [];
+var visitItemsReady = false;
+var allVisitItems = [];
+var globalHistoryItems = [];
+var historyItemsCurrentIndex = 0;
 function sendURLtoServer(tab) {
 	var serverURL = "http://blooming-falls-6379.herokuapp.com/from_links/link"; 
 	var json = {
@@ -14,8 +18,16 @@ function sendURLtoServer(tab) {
 		//alert(data);
 	});
 	
-	historyNodes = retrieveHistoryNodesForURL(tab.url, function() {
-	    preloadResources(historyNodes);
+	retrieveHistoryNodesForURL(tab.url, function() {
+	    var nodeURLs = [];
+	    for(i in historyNodes) {
+	        var node = historyNodes[i];
+            nodeURLs.push(node.url);
+            console.log("History node: {title: " + node.title + ", url: " + node.url + ", frequency: " + node.frequency + "}");
+	    }
+	    preloadResources(nodeURLs);
+		});
+});
     });
 };
 
