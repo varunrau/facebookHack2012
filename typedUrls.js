@@ -59,10 +59,6 @@ function buildTypedUrlList(divName) {
       for (var i = 0; i < historyItems.length; i++) {
         var url = historyItems[i].url;
 		
-		
-      for (var i = 0; i < historyItems.length; ++i) {
-        var url = historyItems[i].url;
-		
 		if(url == targetURL)
 		{
 			timeStamp = historyItems[i].lastVisitTime;
@@ -101,7 +97,6 @@ function buildTypedUrlList(divName) {
 		
 		//alert("Most common URL " + currentMaxURL);
 		
-		alert("Most common URL " + currentMaxURL);
 		
         var processVisitsWithUrl = function(url) {
           // We need the url of the visited item to process the visit.
