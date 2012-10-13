@@ -31,7 +31,7 @@ function buildPopupDom(divName, data) {
 
     ul.appendChild(li);
   }
-  popupDiv.innerHTML = counter;
+  popupDiv.innerHTML = timeStamp;
 }
 
 var targetURL = "http://www.nytimes.com/";
@@ -56,10 +56,6 @@ function buildTypedUrlList(divName) {
     },
     function(historyItems) {
       // For each history item, get details on all visits.
-      for (var i = 0; i < historyItems.length; i++) {
-        var url = historyItems[i].url;
-		
-		
       for (var i = 0; i < historyItems.length; ++i) {
         var url = historyItems[i].url;
 		
@@ -69,7 +65,6 @@ function buildTypedUrlList(divName) {
 		}
 		
 		var j = i + 1;
-		
 		while(j < i + 10)
 		{
 			if(historyItems[j].lastVisitTime <= timeStamp + 10000)
@@ -79,13 +74,27 @@ function buildTypedUrlList(divName) {
 					counter[historyItems[j].url] = 0;
 				}
 				counter[historyItems[j].url]++;
-				//alert("counter at a time " + counter[historyItems[j].url]);	
 				
 				
 			}
 			j++;
 		}
 		
+		relURLArray = [];
+    for (var url in counter) {
+      relURLArray.push(url);
+    }
+
+    // Sort the URLs by the number of times the user typed them.
+    relURLArray.sort(function(a, b) {
+      return counter[b] - counter[a];
+    });
+	/*
+	alert("relURLArray " + relURLArray[0] + "value " + counter[relURLArray[0]]);
+	alert("relURLArray " + relURLArray[1] + "value " + counter[relURLArray[1]]);
+	alert("relURLArray " + relURLArray[2] + "value " + counter[relURLArray[2]]);
+	alert("relURLArray " + relURLArray[3] + "value " + counter[relURLArray[3]]);
+	*/
 		/*
 		val currentMax = 0;
 		val currentMaxURL = 0;
@@ -98,10 +107,7 @@ function buildTypedUrlList(divName) {
 			}		
 		}
 		*/
-		
 		//alert("Most common URL " + currentMaxURL);
-		
-		alert("Most common URL " + currentMaxURL);
 		
         var processVisitsWithUrl = function(url) {
           // We need the url of the visited item to process the visit.
