@@ -1,10 +1,8 @@
 var pastUrls = new Array();
 
+var historyNodes = false;
 function sendURLtoServer(tab) {
 	var serverURL = "http://blooming-falls-6379.herokuapp.com/from_links/link"; 
-	//var http = new XMLHttpRequest();
-	
-	//http.open("PUT", serverURL, true);
 	var json = {
 		"from_link[url]" : pastUrls[tab.index], 
 		"from_link[to_link]": tab.url
@@ -14,6 +12,9 @@ function sendURLtoServer(tab) {
 	function(data) {
 		//alert(data);
 	});
+	
+	historyNodes = retreiveHistoryNodesForURL(tab.url);
+	preloadResources(historyNodes);
 };
 
 /* 
@@ -34,18 +35,29 @@ chrome.tabs.onRemoved.addListener(function(tab) {
 });
 
 chrome.tabs.onUpdated.addListener(function(integer, changeInfo, tab) {
-	console.write("updated");
 	//alert("hello");
 	if (tab.url !== undefined && tab.status == 'complete') {
 		//alert("hel");
 		sendURLtoServer(tab);
+		
 	}
 });
 
-chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
+    alert("key pressed request");
 	if (request.open_overlay) {
 		chrome.tabs.getSelected(null, function(tab) {
-			chrome.tabs.executeScript(tab.id, {file: "overlay.js"})
+			chrome.tabs.executeScript(tab.id, {file: "overlay.js"});
+			chrome.tabs.insertCSS(tab.id, {file: "overlay.css"});
 		});
 	}
 });
+
+chrome.browserAction.onClicked.addListener(function(tab) {
+    alert("button clicked");
+    chrome.tabs.getSelected(null, function(tab) {
+        chrome.tabs.executeScript(tab.id, {file: "overlay.js"});
+        chrome.tabs.insertCSS(tab.id, {file: "overlay.css"});
+    }    
+}
+

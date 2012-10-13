@@ -9,7 +9,7 @@ function retrieveHistoryNodesForURL(targetURL) {
   var oneWeekAgo = (new Date).getTime() - microsecondsPerWeek;
 
   var historyNodes = [];
-  var targetURL = "http://www.google.com/";
+  //var targetURL = "http://www.google.com/";
   var timeStamp = 0;
   var URLfrequencies = [];
   var URLtitles = [];
