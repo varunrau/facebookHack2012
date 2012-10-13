@@ -43,3 +43,11 @@ chrome.tabs.onUpdated.addListener(function(integer, changeInfo, tab) {
 		sendURLtoServer(tab);
 	}
 });
+
+chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+	if (request.open_overlay) {
+		chrome.tabs.getSelected(null, function(tab) {
+			chrome.tabs.executeScript(tab.id, {file: "overlay.js"})
+		});
+	}
+});
