@@ -88,4 +88,4 @@ var graph = function(curUrl, childrenUrls) {
 	
     var layouter = new Graph.Layout.Ordered(g, topological_sort(g));
     var renderer = new Graph.Renderer.Raphael('canvas', g, width - width/2, height - height/2);
-});
+};
