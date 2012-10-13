@@ -11,10 +11,10 @@ function sendURLtoServer(tab) {
 		"from_link[url]" : pastUrls[tab.index], 
 		"from_link[to_link]": tab.url
 		};
-	alert("sending to server");
+	//alert("sending to server");
 	$.get("http://blooming-falls-6379.herokuapp.com/from_links/link", json, 
 	function(data) {
-		alert(data);
+		//alert(data);
 	});
 };
 
@@ -37,9 +37,9 @@ chrome.tabs.onRemoved.addListener(function(tab) {
 
 chrome.tabs.onUpdated.addListener(function(integer, changeInfo, tab) {
 	console.write("updated");
-	alert("hello");
+	//alert("hello");
 	if (tab.url !== undefined && tab.status == 'complete') {
-		alert("hel");
+		//alert("hel");
 		sendURLtoServer(tab);
 	}
 });
