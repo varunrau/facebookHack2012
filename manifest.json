@@ -2,6 +2,7 @@
   "name": "Facebook Hack",
   "version": "1.0",
   "description": "A facebook hack",
+  "background": { "scripts": ["background.js"] },
   "permissions": [
     "bookmarks", "tabs", "browsingData", "history"
   ],
