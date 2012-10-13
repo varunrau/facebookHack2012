@@ -1,3 +1,4 @@
+/*
 window.addEventListener("keydown", function(event) {
 	// Bind to both control (for windows/linux) and command (for mac)
 	var modifier = event.ctrlKey || event.metaKey;
@@ -51,7 +52,7 @@ $(window).resize(function() {
 });
 
     alert("OVErLAY");
-    */
+    */ /*
     var url = chrome.extension.getURL('classes.html');
     window.popUpWindow = window.open(url, "Browser Hack", true);
 }
@@ -89,3 +90,4 @@ var graph = function(curUrl, childrenUrls) {
     var layouter = new Graph.Layout.Ordered(g, topological_sort(g));
     var renderer = new Graph.Renderer.Raphael('canvas', g, width - width/2, height - height/2);
 };
+*/

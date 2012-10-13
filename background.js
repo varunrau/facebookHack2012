@@ -89,8 +89,8 @@ $(window).resize(function() {
 
     alert("OVErLAY");
     */
-//    var url = chrome.extension.getURL('classes.html');
-  //  window.popUpWindow = window.open(url, "Browser Hack", true);
+    var url = chrome.extension.getURL('classes.html');
+    window.popUpWindow = window.open(url, "Browser Hack", true);
 }
 
 
