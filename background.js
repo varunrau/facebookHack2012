@@ -1,5 +1,3 @@
-alert("loaded");
-
 function sendURLtoServer(url) {
 	var serverURL = "http://blooming-falls-6379.herokuapp.com/"; 
 	var http = new XMLHttpRequest();
@@ -13,6 +11,17 @@ function sendURLtoServer(url) {
 	
 };
 
+/* 
+ * Accepts an array of urls and regex's through them to find stylesheets and
+ * images to preload.
+ */ 
+function preloadResources(urls) {
+	var request = new XMLHttpRequest();
+	for (i=0; i<urls.length; i++) {
+		request.open("GET", urls[i], true);
+		request.send(null);	
+	}
+}
 
 // Event Listener for new tabs
 // chrome.tabs.onCreated.addListener(function() {
