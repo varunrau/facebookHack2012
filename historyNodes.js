@@ -28,30 +28,41 @@ function $waitUntil(check,onComplete,delay,timeout) {
   },timeout);
 }
 
-/*$(document).ready(function() {
-  /*retrieveHistoryNodesForURL("http://www.google.com/", function() {
-    var div = document.getElementById("history_nodes");
-    var ul = document.createElement('ul');
-    div.appendChild(ul);
-    for (var i = 0; i < historyNodes.length; i++) {
+$(document).ready(function() {
+  retrieveHistoryNodesForURL("http://www.google.com/", function() {
+    var ul = document.getElementById('org');
+    var li = document.createElement('li');
+    li.appendChild(document.createTextNode("http://www.google.com/"));
+    var childul = document.createElement('ul');
+    li.appendChild(childul);
+    ul.appendChild(li);
+    console.log(historyNodes.length);
+    for (var i = 0; i < 3; i++) {
       var node = historyNodes[i];
-      var li = document.createElement('li');
-      var a = document.createElement('a');
-      a.href = node.url;
-      a.appendChild(document.createTextNode(node.title));
-      li.appendChild(a);
-      ul.appendChild(li);
+      if (node.frequency > 0) {
+        var a = document.createElement('a');
+        var childli = document.createElement('li');
+        a.href = node.url;
+        a.appendChild(document.createTextNode(node.title));
+        childli.appendChild(a);
+        childul.appendChild(childli);
+      }
     }
-  });*/
+    $('#org').jOrgChart();
+  });
   /*retrieveHistoryNodesForURL("http://www.google.com/", function() {
     for(index in historyNodes) {
       var node = historyNodes[index];
       console.log("History node: {title: " + node.title + ", url: " + node.url + ", frequency: " + node.frequency);
     }
-  });
-});*/
+  });*/
+});
 
-
+var historyNodes = [];
+var visitItemsReady = false;
+var allVisitItems = [];
+var globalHistoryItems = [];
+var historyItemsCurrentIndex = 0;
 /*
  * Given a URL, constructs the history nodes for that URL and returns
  * them in a sorted list.

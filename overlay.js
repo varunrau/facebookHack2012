@@ -45,5 +45,5 @@ $(window).resize(function() {
 
     alert("OVErLAY");
     var url = chrome.extension.getURL('classes.html');
-    window.popUpWindow = window.open(url, "Browser Hack", true);
+    window.popUpWindow = window.open(url, "Bwser Hack", true);
 }

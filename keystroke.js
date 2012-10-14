@@ -3,7 +3,7 @@ window.addEventListener("keydown", function(event) {
 	// Bind to both control (for windows/linux) and command (for mac)
 	var modifier = event.ctrlKey || event.metaKey;
 	/* We'll listen for Command + Alt + J */
-	if (modifier || event.altKey || event.keyCode == 75) {
+/*	if (modifier || event.altKey || event.keyCode == 75) {
 	    console.log("key pressed");
 	    overlay();
 	    chrome.extension.sendMessage({data: "hello"}, function(response) {
